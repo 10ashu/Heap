@@ -1,0 +1,93 @@
+#include<bits/stdc++.h>
+using namespace std;
+class Heap
+{
+  public:
+  int *arr;
+  int totalsize;
+  int heapsize;
+  Heap(int totalsize)
+  {
+    this->totalsize=totalsize;
+    arr=new int[totalsize];
+    heapsize=0;
+    arr[0]=-1;
+  }
+  void insert(int value)
+  { 
+
+    if(heapsize>totalsize-1)
+    {
+        cout<<"Overflow"<<endl;
+        return;
+    }
+    heapsize=heapsize+1;
+    int index=heapsize;
+    arr[index]=value;
+    while(index>1)
+    {
+        int parentindex=index/2;
+        if(arr[parentindex]<arr[index])
+        {
+            swap(arr[parentindex],arr[index]);
+            index=parentindex;
+        }
+        else{
+            break;
+        }
+    }
+  }
+  void delet()
+  {
+    arr[1]=arr[heapsize];
+    heapsize--;
+    int index=1;
+    int largest=index;
+    while(index<heapsize)
+    {
+       int left=2*index;
+       int right=2*index+1;
+       if(left<heapsize&&arr[index]<arr[left])
+       {
+          largest=left;
+       }
+       if(right<heapsize&&arr[index]<arr[right])
+       {
+        largest=right;
+       }
+       if(index==largest)
+       {
+        break;
+       }
+       else{
+        swap(arr[index],arr[largest]);
+        index=largest;
+       }
+    }
+  }
+  void print()
+  {
+    
+    for(int i=0;i<=heapsize;i++)
+    {
+        cout<<arr[i]<<" ";
+    }
+    cout<<endl;
+  }
+};
+int main()
+{
+    Heap h(5);
+    h.insert(1);
+    h.insert(2);
+    h.insert(3);
+    h.insert(4);
+    h.insert(5);
+    h.print();
+    cout<<endl;
+   h.delet();
+   cout<<endl;
+   h.print();
+
+    return 0;
+}
