@@ -1,7 +1,7 @@
 
 
 // Using min Heap
-// Time complexity : nlogk
+// Time complexity : nlogk Worst Case
 // Space Complexity: O(k)
 class Solution {
 public:
