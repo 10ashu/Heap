@@ -1,7 +1,8 @@
 
 
 // Using min Heap
-// Time complexity
+// Time complexity : nlogk
+// Space Complexity: O(k)
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
