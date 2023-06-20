@@ -45,7 +45,7 @@ class Solution{
 
 
 // Using max heap  Best Approach
-Time Complexity: O(nlogk)
+Time Complexity: O(nlogk) Worst Case
 Space Complexity: O(K)   // K refers that we insert only k elments in the max heap
  class Solution{
     public:
