@@ -1,0 +1,75 @@
+// User Function template for C++
+
+// Structure of node
+/*struct Node {
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};*/
+
+// Variations of Questions
+1.Check generic tree is max haep or not(Below is the solution)
+2.Tree CBT hai ya nhi(cbt=complete binary tree)
+3.CBT ko max heap check kro
+4.CBT ko min heap check kro
+
+class Solution {
+  public:
+  int countnodes(struct Node* tree)
+  {
+      if(tree==NULL)
+      return 0;
+      int ans=1+countnodes(tree->left)+countnodes(tree->right);
+      return ans;
+  }
+    bool checkcbt(struct Node* tree,int checkcount,int index)
+    {
+        if(tree==NULL)
+        {
+         return true;
+        }
+        if(index>=checkcount)
+        {
+            return false;
+        }
+         else{        
+           bool lef=checkcbt(tree->left,checkcount,2*index+1);
+           bool righ=checkcbt(tree->right,checkcount,2*index+2);
+        return (lef&&righ);
+    }
+    }
+    bool max(struct Node* tree)
+    {
+        if(tree->left==NULL&&tree->right==NULL){
+        return true;
+        }
+        if(tree->right==NULL){
+        return (tree->left->data<tree->data);
+        }
+        else
+        {
+            bool lef=max(tree->left);
+            bool righ=max(tree->right);
+             return (lef&&righ&&(tree->data>tree->right->data&&tree->data>tree->left->data));
+          }
+    }
+    bool isHeap(struct Node* tree) {
+    
+        int checknodes=countnodes(tree);
+        int i=0;
+        if(checkcbt(tree,checknodes,i)&&max(tree))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
+    }
+};
