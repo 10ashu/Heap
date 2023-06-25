@@ -1,0 +1,73 @@
+class Node{
+    public:
+    char data;
+    int count;
+    Node(char ch,int c)
+    {
+        data=ch;
+        count=c;
+    }
+};
+class compare{
+  public:
+  bool operator()(Node* a,Node* b)
+  {
+      return a->count<b->count;
+  }  
+};
+class Solution {
+public:
+    string reorganizeString(string s) {
+        priority_queue<Node*,vector<Node*>,compare> maxheap;
+        int freq[26]={0};
+        for(int i=0;i<s.length();i++)
+        {
+            char ch=s[i];
+            freq[ch-'a']++;
+        }
+        for(int i=0;i<26;i++)
+        {
+             if(freq[i]!=0)
+             {
+                char ch=i+'a';
+                int count=freq[i];
+               Node* temp=new Node(ch,count);
+               maxheap.push(temp);
+             }
+        }
+        string ans="";
+        while(maxheap.size()>1)
+        {
+            Node* first=maxheap.top();
+            maxheap.pop();
+            Node* second=maxheap.top();
+            maxheap.pop();
+            ans=ans+first->data;
+            ans=ans+second->data;
+            first->count--;
+            second->count--;
+            if(first->count!=0)
+            {
+                maxheap.push(first);
+            }
+            if(second->count!=0)
+            {
+                maxheap.push(second);
+            }
+
+        }
+        if(maxheap.size()==1)
+        {
+            Node* temp=maxheap.top();
+            if(temp->count==1)
+            {
+                ans=ans+temp->data;
+            }
+            else
+            {
+                return "";
+            }
+        }
+        return ans;
+    }
+};
