@@ -1,0 +1,145 @@
+#include<bits/stdc++.h>
+using namespace std;
+void findmedian(int element,priority_queue<int> &maxheap,priority_queue<int,vector<int>,greater<int>> &minheap,double &median)
+{
+    if(maxheap.size()==minheap.size())
+    {
+          if(element>median)
+          {
+               minheap.push(element);
+               median=minheap.top();
+          }
+          else{
+               maxheap.push(element);
+               median=maxheap.top();
+          }
+
+    }
+    else if(maxheap.size()>minheap.size())
+    {
+        if(element>median)
+        {
+            minheap.push(element);
+            median=(maxheap.top()+minheap.top())/2.0;
+        }
+        else{
+            int top=maxheap.top();
+            maxheap.pop();
+            minheap.push(top);
+            maxheap.push(element);
+            median=(maxheap.top()+minheap.top())/2.0;
+        }
+    }
+    else
+    {
+      // minheap.size()>maxheap.size()
+           if(element>median)
+           {
+                int top=minheap.top();
+                minheap.pop();
+                maxheap.push(top);
+                minheap.push(element);
+                median=(maxheap.top()+minheap.top())/2.0;
+           }
+           else{
+                maxheap.push(element);
+                median=(maxheap.top()+minheap.top())/2.0;
+           }
+          
+    }
+     
+}
+int main()
+{
+    int arr[6]={1,2,3,4,5,6};
+    priority_queue<int> maxheap;
+    priority_queue<int,vector<int>,greater<int>> minheap;
+    double median=0;
+    for(int i=0;i<6;i++)
+    {
+        int ele=arr[i];
+        findmedian(ele,maxheap,minheap,median);
+        cout<<"Median for "<<arr[i]<<" " << median<<endl;
+    }
+    return 0;
+}
+
+
+// Using Signum Function
+
+
+
+
+#include <iostream>
+#include<queue>
+#include<vector>
+using namespace std;
+ 
+int signum(int a , int b) {
+        if(a == b) 
+                return 0;
+        if(a > b )
+                return 1;
+        if(a < b)
+                return -1;
+}
+
+void callMedian(double &median, priority_queue<int>& maxHeap, priority_queue<int, vector<int>, greater<int> >& minHeap, int element) {
+
+        switch(signum(minHeap.size(), maxHeap.size())) {
+                case 0:if(element > median) {
+                        minHeap.push(element);
+                        median = minHeap.top();
+                        }
+                        else {
+                        maxHeap.push(element);
+                        median = maxHeap.top();
+                       }
+                        break;
+                case 1: if(element > median ) {
+                        int minTop = minHeap.top();
+                        minHeap.pop();
+                        maxHeap.push(minTop);
+                        minHeap.push(element);
+                        median = (minHeap.top() + maxHeap.top())/2.0;
+                        }
+                        else {
+                        maxHeap.push(element);
+                        median = (minHeap.top() + maxHeap.top())/2.0;
+                        }
+                        break;
+                case -1: if(element > median) {
+                        minHeap.push(element);
+                        median = (minHeap.top() + maxHeap.top())/2.0;
+                         }
+                         else {
+                        int maxTop = maxHeap.top();
+                        maxHeap.pop();
+                        minHeap.push(maxTop);
+                        maxHeap.push(element);
+                        median = (minHeap.top() + maxHeap.top())/2.0;
+                        }
+                        break;
+
+        }
+
+}
+
+int main() {
+        int arr[6] = {1,2,3,4,5,6};
+        int n = 6;
+
+        //5 6 5 6 5 6
+        double median = 0;
+        priority_queue<int> maxHeap;
+        priority_queue<int, vector<int>, greater<int> > minHeap;
+        for(int i=0; i<n; i++) {
+                int element = arr[i];
+                callMedian(median, maxHeap,minHeap, element);
+                cout << "arr[i]->median:  " << median << endl;
+        }cout << endl;
+
+
+
+        return 0;
+}
